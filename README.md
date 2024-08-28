@@ -18,8 +18,7 @@ javascript + html
 
 #### 插件截图
 ![输入图片说明](image.png)
-![输入图片说明](image.png)
-
+![输入图片说明](.idea/image.png)
 #### 参与贡献
 
 1.  Fork 本仓库
