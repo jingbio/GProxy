@@ -28,5 +28,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     
     // Indicate that the response will be sent asynchronously
     return true;
+  }else if(message.action === "disconnectProxy"){
+    const clearProxyConfig = {
+      mode: "direct" // Switch back to direct connection
+    };
+
+    chrome.proxy.settings.clear(
+        { scope: 'regular' }, // Clear the proxy settings
+        () => {
+          if (chrome.runtime.lastError) {
+            console.error("Error clearing proxy settings:", chrome.runtime.lastError.message);
+            sendResponse({ success: false });
+          } else {
+            sendResponse({ success: true });
+          }
+        }
+    );
+    return true; // Indicate that the response will be sent asynchronously
   }
 });
