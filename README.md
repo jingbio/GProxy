@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://en.easy-es.cn/">
-   <img alt="East-Es-Logo" src="https://iknow.hs.net/042dd639-5bfa-410f-968f-8bbceb8d8ca7.png">
+  <a href="https://gitee.com/jingwei129/gproxy">
+   <img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/blob/master/.idea/icon128.png">
   </a>
 </p>
 
