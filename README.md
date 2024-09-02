@@ -1,3 +1,23 @@
+<p align="center">
+  <a href="https://en.easy-es.cn/">
+   <img alt="East-Es-Logo" src="https://iknow.hs.net/042dd639-5bfa-410f-968f-8bbceb8d8ca7.png">
+  </a>
+</p>
+
+<p align="center">
+  Born To Simplify Development
+</p>
+
+<p align="center">
+  <a href="https://search.maven.org/search?q=g:io.github.xpc1024%20a:easy-*">
+    <img alt="maven" src="https://img.shields.io/github/v/release/xpc1024/easy-es?include_prereleases&logo=xpc&style=plastic">
+  </a>
+  <a href="https://www.murphysec.com/dr/htY0sMYDQaDn4X8iXp" alt="OSCS Status"><img src="https://www.oscs1024.com/platform/badge/dromara/easy-es.git.svg?size=small"/></a>
+  <a href="https://www.apache.org/licenses/LICENSE-2.0">
+    <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
+  </a>
+</p>
+
 # GProxy
 
 #### 介绍
