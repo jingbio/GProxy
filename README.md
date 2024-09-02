@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://gitee.com/jingwei129/gproxy">
-   <img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/blob/master/.idea/icon128.png">
+   <img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/raw/master/.idea/icon128.png">
   </a>
 </p>
 
