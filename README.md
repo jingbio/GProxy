@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://search.maven.org/search?q=g:io.github.xpc1024%20a:easy-*">
+  <a href="https://search.maven.org/search?q=g:io.github.xpc1024%20a:gproxy-*">
     <img alt="maven" src="https://img.shields.io/github/v/release/xpc1024/easy-es?include_prereleases&logo=xpc&style=plastic">
   </a>
   <a href="https://www.murphysec.com/dr/htY0sMYDQaDn4X8iXp" alt="OSCS Status"><img src="https://www.oscs1024.com/platform/badge/dromara/easy-es.git.svg?size=small"/></a>
