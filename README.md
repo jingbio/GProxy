@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  Born To Simplify Development
+  Easy use Vpn Proxy
 </p>
 
 <p align="center">
