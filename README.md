@@ -33,8 +33,8 @@ javascript + html
 1. 启用GProxy扩展，输入代理服务器的ip+端口即可
 
 #### 插件截图
-![输入图片说明](image.png)
-![输入图片说明](.idea/image.png)
+![Uploading image.png…]()
+
 #### 参与贡献
 
 1.  Fork 本仓库
