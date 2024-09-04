@@ -33,7 +33,7 @@ javascript + html
 1. 启用GProxy扩展，输入代理服务器的ip+端口即可
 
 #### 插件截图
-[![Uploading image.png…]()](https://github.com/jingbio/GProxy/blob/main/image/1.png?raw=true)
+[[![Uploading image.png…]()](https://github.com/jingbio/GProxy/blob/main/image/1.png?raw=true)](https://github.com/jingbio/GProxy/blob/main/image/1.png)
 
 #### 参与贡献
 
