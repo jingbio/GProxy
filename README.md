@@ -1,3 +1,19 @@
+<p align="center">
+  <a href="https://gitee.com/jingwei129/gproxy">
+   <img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/raw/master/.idea/icon128.png">
+  </a>
+</p>
+
+<p align="center">
+  Easy use Vpn Proxy
+</p>
+
+<p align="center">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0">
+    <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
+  </a>
+</p>
+
 # GProxy
 
 #### 介绍
