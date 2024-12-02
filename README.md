@@ -34,7 +34,7 @@ javascript + html
 
 #### 插件截图
 <img alt="GProxy-Logo" src="/image/1.png">
-<img alt="GProxy-Logo" src="/master/image/2.png">
+<img alt="GProxy-Logo" src="/image/2.png">
 
 #### 参与贡献
 
