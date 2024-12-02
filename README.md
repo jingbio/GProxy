@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://alal.site:5005/Jason/GProxy">
-   <img alt="GProxy-Logo" src="http://alal.site:5005/Jason/GProxy/src/master/image/icon128.png">
+   <img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/blob/master/image/128.png">
   </a>
 </p>
 
@@ -33,8 +33,8 @@ javascript + html
 1. 启用GProxy扩展，输入代理服务器的ip+端口即可
 
 #### 插件截图
-<img alt="GProxy-Logo" src="http://alal.site:5005/Jason/GProxy/src/master/image/1.png">
-<img alt="GProxy-Logo" src="http://alal.site:5005/Jason/GProxy/src/master/image/2.png">
+<img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/blob/master/image/1.png">
+<img alt="GProxy-Logo" src="https://gitee.com/jingwei129/gproxy/blob/master/image/2.png">
 
 #### 参与贡献
 
