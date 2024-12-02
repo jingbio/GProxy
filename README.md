@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-   <img alt="GProxy-Logo" src="/image/128.png">
+   <img alt="GProxy-Logo" src="/image/48.png">
   </a>
 </p>
 
