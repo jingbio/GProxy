@@ -1,5 +1,5 @@
 var enabled = false;
-
+//创建连接
 function connectToProxy() {
     const updatedProxyConfig = {
         mode: "fixed_servers",
@@ -12,6 +12,7 @@ function connectToProxy() {
             bypassList: [
                 "192.168.0.0/16"
                 ,"194.1.0.0/16"
+                ,"10.0.0.0/8"
                 ,"*.baidu.com"
                 ,"*.163.com"
                 ,"*.qq.com"
@@ -20,6 +21,8 @@ function connectToProxy() {
                 ,"*.cnblogs.com"
                 ,"*.csdn.com"
                 ,"*.gitee.com"
+                ,"*.bilibili.com"
+                ,"*.douyin.com"
             ]
         }
     };
