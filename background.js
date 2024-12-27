@@ -1,11 +1,13 @@
-var enabled = false;
+//var enabled = false;
 //创建连接
 function connectToProxy() {
-    const updatedProxyConfig = {
-        mode: "fixed_servers",
+
+    //定义代理参数
+    const config = {
+        mode: 'fixed_servers',
         rules: {
             singleProxy: {
-                scheme: "http",
+                scheme: 'http',
                 host: '127.0.0.1',
                 port: 2334
             },
@@ -19,9 +21,11 @@ function connectToProxy() {
                 ,"*.163.com"
                 ,"*.qq.com"
                 ,"*.jd.com"
+                ,"*.360.com"
+                ,"*.hutool.cn"
                 ,"*.taobao.com"
                 ,"*.cnblogs.com"
-                ,"*.csdn.com"
+                ,"*.csdn.net"
                 ,"*.gitee.com"
                 ,"*.bilibili.com"
                 ,"*.douyin.com"
@@ -65,13 +69,15 @@ function connectToProxy() {
             ]
         }
     };
+
+    //设置代理生效
     chrome.proxy.settings.set(
-        { value: updatedProxyConfig, scope: 'regular' },
+        { value: config, scope: 'regular' },
         () => {
             if (chrome.runtime.lastError) {
-                console.error("代理设置错误:", chrome.runtime.lastError.message);
+                console.error('error->>>>>>>> ', chrome.runtime.lastError.message);
             } else {
-                console.log("代理已连接成功！");
+                console.info('success!');
             }
         }
     );
@@ -83,10 +89,10 @@ function disconnectFromProxy() {
         { scope: 'regular' },
         () => {
             if (chrome.runtime.lastError) {
-                console.error("清除代理设置错误:", chrome.runtime.lastError.message);
+                console.error('clear config error->>>>>>>> ', chrome.runtime.lastError.message);
                 sendResponse({ success: false });
             } else {
-                console.log("代理已断开！");
+                console.log('proxy cleared!');
                 sendResponse({ success: true });
             }
         }
@@ -96,23 +102,23 @@ function disconnectFromProxy() {
 // 创建右键菜单项
 chrome.contextMenus.create({
     id: 'enablePlugin',
-    title: '启用插件',
+    title: 'open',
     contexts: ['all']
 });
 
 chrome.contextMenus.create({
     id: 'disablePlugin',
-    title: '关闭插件',
+    title: 'close',
     contexts: ['all']
 });
 
 // 处理右键菜单点击事件
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === 'enablePlugin') {
-        enabled = true;
+        //enabled = true;
         connectToProxy();
     } else if (info.menuItemId === 'disablePlugin') {
-        enabled = false;
+        //enabled = false;
         disconnectFromProxy();
     }
 });
