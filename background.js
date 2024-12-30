@@ -66,6 +66,7 @@ function connectToProxy() {
                 ,"*.tencent.com"
                 ,"*.xiaomi.com"
                 ,"*.zhihu.com"
+                ,"*.alal.site"
             ]
         }
     };
