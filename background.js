@@ -27,6 +27,7 @@ function connectToProxy() {
                 ,"*.cnblogs.com"
                 ,"*.csdn.net"
                 ,"*.gitee.com"
+                ,"gitee.com"
                 ,"*.bilibili.com"
                 ,"*.douyin.com"
                 ,"*.cn"
