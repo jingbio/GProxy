@@ -68,8 +68,8 @@ function connectToProxy() {
                 ,"*.xiaomi.com"
                 ,"*.zhihu.com"
                 ,"*.alal.site"
-                ,".douyin.com"
-                ,".deepseek.com"
+                ,"*.douyin.com"
+                ,"*.deepseek.com"
             ]
         }
     };
