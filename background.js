@@ -1,5 +1,5 @@
 importScripts('bypassList.js');
-//var enabled = false;
+
 //创建连接
 function connectToProxy() {
 
@@ -61,10 +61,8 @@ chrome.contextMenus.create({
 // 处理右键菜单点击事件
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === 'enablePlugin') {
-        //enabled = true;
         connectToProxy();
     } else if (info.menuItemId === 'disablePlugin') {
-        //enabled = false;
         disconnectFromProxy();
     }
 });
