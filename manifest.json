@@ -12,6 +12,9 @@
   "background": {
     "service_worker": "background.js"
   },
+  "host_permissions": [
+    "https://i.alal.site/*"
+  ],
   "icons": {
     "16": "image/icon16.png",
     "48": "image/icon48.png",
