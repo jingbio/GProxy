@@ -1,7 +1,8 @@
+// 配置常量
 const host = '127.0.0.1';
 const port = 2334;
 const url = 'https://alal.site/bypass.json';
-const block = 'https://alal.site/block.json';
+const blockUrl = 'https://alal.site/block.json';
 
 const defaultBypass = [
     '192.168.0.0/16',
@@ -11,46 +12,63 @@ const defaultBypass = [
     '127.16.0.0/16'
 ];
 
-// 统一获取并保存数据
-async function loadBypassAndBlockList() {
+// 缓存 bypass 和 block 列表
+let cachedBypassList = [];
+let cachedBlockList = [];
+
+// 加载 bypass 列表
+async function loadBypassList() {
     try {
-        const [bypassRes, blockRes] = await Promise.all([fetch(url), fetch(block)]);
-        const [bypass, blockList] = await Promise.all([bypassRes.json(), blockRes.json()]);
-        await chrome.storage.local.set({ bypass, block: blockList });
-        console.log('bypass列表已更新:', bypass);
-        console.log('block列表已更新:', blockList);
+        const res = await fetch(url);
+        const data = await res.json();
+        cachedBypassList = data;
+        await chrome.storage.local.set({ bypass: data });
+        console.log('bypass列表已更新:', data);
     } catch (error) {
-        console.error('使用默认bypass列表', error);
-        await chrome.storage.local.set({ bypass: defaultBypass, block: [] });
+        console.error('加载 bypass 出错，使用默认列表', error);
+        cachedBypassList = defaultBypass;
+        await chrome.storage.local.set({ bypass: defaultBypass });
     }
 }
 
-function getList(key) {
-    return new Promise(resolve => {
-        chrome.storage.local.get(key, data => resolve(data[key] || []));
-    });
+// 加载 block 列表
+async function loadBlockList() {
+    try {
+        const res = await fetch(blockUrl);
+        const data = await res.json();
+        cachedBlockList = data;
+        await chrome.storage.local.set({ block: data });
+        console.log('block列表已更新:', data);
+    } catch (error) {
+        console.error('加载 block 出错，使用空列表', error);
+        cachedBlockList = [];
+        await chrome.storage.local.set({ block: [] });
+    }
 }
 
-async function getBypassList() {
-    return getList('bypass');
+// 统一加载并定时刷新
+async function loadBypassAndBlockList() {
+    await Promise.all([loadBypassList(), loadBlockList()]);
 }
+loadBypassAndBlockList();
+setInterval(loadBypassAndBlockList, 3600000); // 每小时刷新一次
 
-async function getBlockList() {
-    return getList('block');
+// 获取本地存储数据（用于首次启动）
+async function initCachedLists() {
+    const { bypass = defaultBypass, block = [] } = await chrome.storage.local.get(['bypass', 'block']);
+    cachedBypassList = bypass;
+    cachedBlockList = block;
 }
+initCachedLists();
 
-function removeLocalData() {
-    chrome.storage.local.remove(['bypass', 'block']);
-}
-
+// 设置代理
 async function applyProxy() {
     try {
-        const bypass = await getBypassList();
         const config = {
             mode: 'fixed_servers',
             rules: {
                 singleProxy: { scheme: 'http', host, port },
-                bypassList: bypass
+                bypassList: cachedBypassList
             }
         };
         chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
@@ -65,6 +83,7 @@ async function applyProxy() {
     }
 }
 
+// 清除代理
 function clearProxy() {
     chrome.proxy.settings.clear({ scope: 'regular' }, () => {
         if (chrome.runtime.lastError) {
@@ -76,38 +95,31 @@ function clearProxy() {
 }
 
 // 创建右键菜单
-['open', 'close', 'setting'].forEach(id => {
+['open', 'close'].forEach(id => {
     chrome.contextMenus.create({ id, title: id, contexts: ['all'] });
 });
 
+// 右键菜单事件处理
 chrome.contextMenus.onClicked.addListener(info => {
     switch (info.menuItemId) {
         case 'open': applyProxy(); break;
         case 'close': clearProxy(); break;
-        case 'setting': /* 这里可以加自定义逻辑 */ break;
     }
 });
 
-// 启动时加载列表并定时更新
-loadBypassAndBlockList();
-setInterval(loadBypassAndBlockList, 3600000);
-
-// 黑名单清理逻辑
-async function isBlockedDomain(hostname) {
-    const bypassList = await getBypassList();
-    return bypassList.some(domain => {
-        if (domain.startsWith('*.')) {
-            const plainDomain = domain.slice(2);
-            return hostname === plainDomain || hostname.endsWith(`.${plainDomain}`);
-        }
-        return hostname === domain;
-    });
+// 判断是否匹配黑名单域名
+function isMatchDomain(hostname, domain) {
+    if (domain.startsWith('*.')) {
+        const baseDomain = domain.slice(2);
+        return hostname === baseDomain || hostname.endsWith(`.${baseDomain}`);
+    }
+    return hostname === domain;
 }
 
+// 窗口关闭时清理历史记录
 chrome.windows.onRemoved.addListener(async windowId => {
     console.log(`窗口 ${windowId} 已关闭`);
-    const blockList = await getBlockList();
-    console.log('黑名单列表:', blockList);
+    const blockList = cachedBlockList.length > 0 ? cachedBlockList : await getBlockListFromStorage();
 
     for (const domain of blockList) {
         const query = domain.startsWith('*.') ? domain.slice(2) : domain;
@@ -115,10 +127,7 @@ chrome.windows.onRemoved.addListener(async windowId => {
             const results = await chrome.history.search({ text: query, maxResults: 1000 });
             for (const item of results) {
                 const { hostname } = new URL(item.url);
-                if (
-                    (domain.startsWith('*.') && (hostname === query || hostname.endsWith(`.${query}`))) ||
-                    (!domain.startsWith('*.') && hostname === domain)
-                ) {
+                if (isMatchDomain(hostname, domain)) {
                     await chrome.history.deleteUrl({ url: item.url });
                     console.log(`已删除历史记录：${item.url}`);
                 }
@@ -130,3 +139,14 @@ chrome.windows.onRemoved.addListener(async windowId => {
 
     removeLocalData();
 });
+
+// 辅助方法：从 storage 获取 block 列表
+async function getBlockListFromStorage() {
+    const data = await chrome.storage.local.get('block');
+    return data.block || [];
+}
+
+// 清除本地数据
+function removeLocalData() {
+    chrome.storage.local.remove(['bypass', 'block']);
+}
