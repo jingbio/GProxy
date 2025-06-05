@@ -7,13 +7,17 @@
     "proxy",
     "storage",
     "declarativeNetRequest",
-    "contextMenus"
+    "contextMenus",
+    "history",
+    "cookies",
+    "tabs"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "host_permissions": [
-    "https://i.alal.site/*"
+    "https://i.alal.site/*",
+    "<all_urls>"
   ],
   "icons": {
     "16": "image/icon16.png",
