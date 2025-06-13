@@ -16,7 +16,7 @@
     "service_worker": "background.js"
   },
   "host_permissions": [
-    "https://i.alal.site/*",
+    "https://alal.site/*",
     "<all_urls>"
   ],
   "icons": {
