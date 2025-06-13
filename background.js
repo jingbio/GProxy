@@ -95,8 +95,10 @@ function clearProxy() {
 }
 
 // 创建右键菜单
-['open', 'close'].forEach(id => {
-    chrome.contextMenus.create({ id, title: id, contexts: ['all'] });
+chrome.contextMenus.removeAll(() => {
+    ['open', 'close'].forEach(id => {
+        chrome.contextMenus.create({ id, title: id, contexts: ['all'] });
+    });
 });
 
 // 右键菜单事件处理
