@@ -1,65 +1,83 @@
 // 配置常量
 const host = '127.0.0.1';
 const port = 2334;
-const url = 'https://alal.site/bypass.json';
-const blockUrl = 'https://alal.site/block.json';
-
-const defaultBypass = [
-    '192.168.0.0/16',
-    '194.1.0.0/16',
-    '10.0.0.0/8',
-    '100.64.0.0/16',
-    '127.16.0.0/16'
-];
 
 // 缓存 bypass 和 block 列表
-let cachedBypassList = [];
-let cachedBlockList = [];
-
-// 加载 bypass 列表
-async function loadBypassList() {
-    try {
-        const res = await fetch(url);
-        const data = await res.json();
-        cachedBypassList = data;
-        await chrome.storage.local.set({ bypass: data });
-        console.log('bypass列表已更新:', data);
-    } catch (error) {
-        console.error('加载 bypass 出错，使用默认列表', error);
-        cachedBypassList = defaultBypass;
-        await chrome.storage.local.set({ bypass: defaultBypass });
-    }
-}
-
-// 加载 block 列表
-async function loadBlockList() {
-    try {
-        const res = await fetch(blockUrl);
-        const data = await res.json();
-        cachedBlockList = data;
-        await chrome.storage.local.set({ block: data });
-        console.log('block列表已更新:', data);
-    } catch (error) {
-        console.error('加载 block 出错，使用空列表', error);
-        cachedBlockList = [];
-        await chrome.storage.local.set({ block: [] });
-    }
-}
-
-// 统一加载并定时刷新
-async function loadBypassAndBlockList() {
-    await Promise.all([loadBypassList(), loadBlockList()]);
-}
-loadBypassAndBlockList();
-setInterval(loadBypassAndBlockList, 3600000); // 每小时刷新一次
-
-// 获取本地存储数据（用于首次启动）
-async function initCachedLists() {
-    const { bypass = defaultBypass, block = [] } = await chrome.storage.local.get(['bypass', 'block']);
-    cachedBypassList = bypass;
-    cachedBlockList = block;
-}
-initCachedLists();
+let cachedBypassList = [
+    "192.168.0.0/16"
+    ,"194.1.0.0/16"
+    ,"10.0.0.0/8"
+    ,"100.64.0.0/16"
+    ,"127.16.0.0/16"
+    ,"*.baidu.com"
+    ,"*.163.com"
+    ,"*.qq.com"
+    ,"*.jd.com"
+    ,"*.360.com"
+    ,"*.hutool.cn"
+    ,"*.taobao.com"
+    ,"*.cnblogs.com"
+    ,"*.csdn.net"
+    ,"*.gitee.com"
+    ,"gitee.com"
+    ,"*.bilibili.com"
+    ,"*.douyin.com"
+    ,"*.cn"
+    ,"*.4399.com"
+    ,"*.51.net"
+    ,"*.51cto.com"
+    ,"*.51job.com"
+    ,"*.58.com"
+    ,"*.7k7k.com"
+    ,"*.91.com"
+    ,"*.alipan.com"
+    ,"*.alicdn.com"
+    ,"*.alibaba.com"
+    ,"*.alibabacloud.com"
+    ,"*.alipay.com"
+    ,"*.aliyun.com"
+    ,"*.biliapi.com"
+    ,"*.biliapi.net"
+    ,"*.bilibili.com"
+    ,"*.bilibili.tv"
+    ,"*.bilicomic.com"
+    ,"*.biligame.com"
+    ,"*.biligame.net"
+    ,"*.bilivideo.com"
+    ,"*.douyu.com"
+    ,"*.hao123.com"
+    ,"*.huya.com"
+    ,"*.iqiyi.com"
+    ,"*.jianshu.*"
+    ,"*.kuaishou.com"
+    ,"*.layui.com"
+    ,"*.qqmail.com"
+    ,"*.sina.com"
+    ,"*.sogou.com"
+    ,"*.taobao.com"
+    ,"*.tencent-cloud.com"
+    ,"*.tencent.com"
+    ,"*.xiaomi.com"
+    ,"*.zhihu.com"
+    ,"*.alal.site"
+    ,"*.douyin.com"
+    ,"*.deepseek.com"
+    ,"*.xunlei.com"
+    ,"*.weibo.com"
+];
+let cachedBlockList = [
+    "*.xvideos.com"
+    ,"*.pornhub.com"
+    ,"*.xhamster.com"
+    ,"*.redtube.com"
+    ,"*.youjizz.com"
+    ,"*.tnaflix.com"
+    ,"*.tube8.com"
+    ,"*.youporn.com"
+    ,"*.spankwire.com"
+    ,"*.hentaihaven.com"
+    ,"*.baidu.com"
+];
 
 // 设置代理
 async function applyProxy() {
@@ -121,9 +139,8 @@ function isMatchDomain(hostname, domain) {
 // 窗口关闭时清理历史记录
 chrome.windows.onRemoved.addListener(async windowId => {
     console.log(`窗口 ${windowId} 已关闭`);
-    const blockList = cachedBlockList.length > 0 ? cachedBlockList : await getBlockListFromStorage();
 
-    for (const domain of blockList) {
+    for (const domain of cachedBlockList) {
         const query = domain.startsWith('*.') ? domain.slice(2) : domain;
         try {
             const results = await chrome.history.search({ text: query, maxResults: 1000 });
@@ -138,17 +155,4 @@ chrome.windows.onRemoved.addListener(async windowId => {
             console.error('删除历史记录出错:', err);
         }
     }
-
-    removeLocalData();
 });
-
-// 辅助方法：从 storage 获取 block 列表
-async function getBlockListFromStorage() {
-    const data = await chrome.storage.local.get('block');
-    return data.block || [];
-}
-
-// 清除本地数据
-function removeLocalData() {
-    chrome.storage.local.remove(['bypass', 'block']);
-}
