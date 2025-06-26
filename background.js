@@ -1,8 +1,8 @@
-// 配置常量
+// set the proxy settings for Chrome extension
 const host = '127.0.0.1';
 const port = 2334;
 
-// 缓存 bypass 和 block 列表
+// bypass and block list
 let cachedBypassList = [
     "192.168.0.0/16"
     ,"194.1.0.0/16"
@@ -79,7 +79,7 @@ let cachedBlockList = [
     ,"*.baidu.com"
 ];
 
-// 设置代理
+// apply the proxy settings
 async function applyProxy() {
     try {
         const config = {
@@ -91,35 +91,34 @@ async function applyProxy() {
         };
         chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
             if (chrome.runtime.lastError) {
-                console.error('设置代理失败:', chrome.runtime.lastError.message);
+                console.error('set proxy error:', chrome.runtime.lastError.message);
             } else {
-                console.info('代理已启用');
+                console.info('proxy applied successfully');
             }
         });
     } catch (err) {
-        console.error('设置代理出错:', err);
+        console.error('apply proxy error:', err);
     }
 }
 
-// 清除代理
+// clear the proxy settings
 function clearProxy() {
     chrome.proxy.settings.clear({ scope: 'regular' }, () => {
         if (chrome.runtime.lastError) {
-            console.error('清除代理失败:', chrome.runtime.lastError.message);
+            console.error('clear proxy error:', chrome.runtime.lastError.message);
         } else {
-            console.info('代理已清除');
+            console.info('clear proxy successfully');
         }
     });
 }
 
-// 创建右键菜单
 chrome.contextMenus.removeAll(() => {
     ['open', 'close'].forEach(id => {
         chrome.contextMenus.create({ id, title: id, contexts: ['all'] });
     });
 });
 
-// 右键菜单事件处理
+// listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(info => {
     switch (info.menuItemId) {
         case 'open': applyProxy(); break;
@@ -127,7 +126,7 @@ chrome.contextMenus.onClicked.addListener(info => {
     }
 });
 
-// 判断是否匹配黑名单域名
+// check if the hostname matches the domain
 function isMatchDomain(hostname, domain) {
     if (domain.startsWith('*.')) {
         const baseDomain = domain.slice(2);
@@ -136,9 +135,9 @@ function isMatchDomain(hostname, domain) {
     return hostname === domain;
 }
 
-// 窗口关闭时清理历史记录
+// when windows closed, clear history
 chrome.windows.onRemoved.addListener(async windowId => {
-    console.log(`窗口 ${windowId} 已关闭`);
+    console.log(`windows ${windowId} hasten closed`);
 
     for (const domain of cachedBlockList) {
         const query = domain.startsWith('*.') ? domain.slice(2) : domain;
@@ -148,11 +147,11 @@ chrome.windows.onRemoved.addListener(async windowId => {
                 const { hostname } = new URL(item.url);
                 if (isMatchDomain(hostname, domain)) {
                     await chrome.history.deleteUrl({ url: item.url });
-                    console.log(`已删除历史记录：${item.url}`);
+                    console.log(`clear history url：${item.url}`);
                 }
             }
         } catch (err) {
-            console.error('删除历史记录出错:', err);
+            console.error('delete history error:', err);
         }
     }
 });
