@@ -140,18 +140,21 @@ chrome.windows.onRemoved.addListener(async windowId => {
     console.log(`windows ${windowId} hasten closed`);
 
     for (const domain of cachedBlockList) {
-        const query = domain.startsWith('*.') ? domain.slice(2) : domain;
         try {
-            const results = await chrome.history.search({ text: query, maxResults: 1000 });
-            for (const item of results) {
-                const { hostname } = new URL(item.url);
-                if (isMatchDomain(hostname, domain)) {
-                    await chrome.history.deleteUrl({ url: item.url });
-                    console.log(`clear history url：${item.url}`);
-                }
-            }
+            const results = await chrome.history.search({
+                text: domain.startsWith('*.') ? domain.slice(2) : domain,
+                maxResults: 1000
+            });
+
+            await Promise.all(
+                results
+                    .filter(item => isMatchDomain(new URL(item.url).hostname, domain))
+                    .map(item => chrome.history.deleteUrl({ url: item.url }))
+            );
+
+            console.log(`Cleared history for domain: ${domain}`);
         } catch (err) {
-            console.error('delete history error:', err);
+            console.error(`Error clearing history for domain ${domain}:`, err);
         }
     }
 });
