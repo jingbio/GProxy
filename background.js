@@ -64,6 +64,8 @@ let cachedBypassList = [
     ,"*.deepseek.com"
     ,"*.xunlei.com"
     ,"*.weibo.com"
+    ,"*.cn"
+    ,"*.postman.co"
 ];
 let cachedBlockList = [
     "*.xvideos.com"
