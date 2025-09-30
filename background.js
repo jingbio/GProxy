@@ -68,17 +68,7 @@ let cachedBypassList = [
     ,"*.postman.co"
 ];
 let cachedBlockList = [
-    "*.xvideos.com"
-    ,"*.pornhub.com"
-    ,"*.xhamster.com"
-    ,"*.redtube.com"
-    ,"*.youjizz.com"
-    ,"*.tnaflix.com"
-    ,"*.tube8.com"
-    ,"*.youporn.com"
-    ,"*.spankwire.com"
-    ,"*.hentaihaven.com"
-    ,"*.baidu.com"
+    "*.baidu.com"
 ];
 
 // apply the proxy settings
