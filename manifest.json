@@ -10,7 +10,9 @@
     "contextMenus",
     "history",
     "cookies",
-    "tabs"
+    "tabs",
+    "webRequest",
+    "webRequestAuthProvider"
   ],
   "background": {
     "service_worker": "background.js"
