@@ -148,7 +148,7 @@ async function clearHistory() {
                 maxResults: 1000
             });
 
-            // fillter and delete match url
+            // filter and delete match url
             const deletions = results.map(item => {
                 try {
                     const hostname = new URL(item.url).hostname;
