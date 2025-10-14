@@ -68,6 +68,14 @@ let cachedBypassList = [
 let cachedBlockList = [
     "*pornhub.com"
     ,"*xvideos.com"
+    ,"*xhamster.com"
+    ,"*xnxx.com"
+    ,"*redtube.com"
+    ,"*youporn.com"
+    ,"*youjizz.com"
+    ,"*tube8.com"
+    ,"*spankbang.com"
+    ,"*tnaflix.com"
 ];
 
 // apply the proxy settings
