@@ -1,6 +1,6 @@
 // set the proxy settings for Chrome extension
 const host = '127.0.0.1';
-const port = 2334;
+const port = 2335;
 const scheme = 'socks5';
 const username = 'admin';
 const password = 'admin';
