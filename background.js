@@ -146,13 +146,10 @@ async function clearHistory() {
             // filter and delete match url
             const deletions = results.map(item => {
                 try {
-                    const hostname = new URL(item.url).hostname;
-                    if (isMatchDomain(hostname, domain))
-                        return chrome.history.deleteUrl({url: item.url});
+                    return isMatchDomain(new URL(item.url).hostname, domain) ? chrome.history.deleteUrl({url: item.url}) : null;
                 } catch (e) {
                     //ignore can't match url
                 }
-                return null;
             }).filter(Boolean);
 
             await Promise.all(deletions);
