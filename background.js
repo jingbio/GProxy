@@ -1,7 +1,7 @@
 // set the proxy settings for Chrome extension
 const host = '127.0.0.1';
-const port = 2334;
-const scheme = 'http'; // 'http', 'https', 'socks4', 'socks5'
+const port = 2336;
+const scheme = 'socks5'; // 'http', 'https', 'socks4', 'socks5'
 
 // bypass and block list
 let cachedBypassList = [
@@ -123,10 +123,19 @@ chrome.contextMenus.onClicked.addListener(info => {
 
 // check if the hostname matches the domain
 function isMatchDomain(hostname, domain) {
+    // 支持 *.example.com
     if (domain.startsWith('*.')) {
         const baseDomain = domain.slice(2);
         return hostname === baseDomain || hostname.endsWith(`.${baseDomain}`);
     }
+
+    // 支持 *example.com（你的写法）
+    if (domain.startsWith('*')) {
+        const baseDomain = domain.slice(1);
+        return hostname === baseDomain || hostname.endsWith(baseDomain);
+    }
+
+    // 完全匹配
     return hostname === domain;
 }
 
