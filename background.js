@@ -1,6 +1,6 @@
 // set the proxy settings for Chrome extension
-const host = '127.0.0.1';
-const port = 2336;
+const host = '192.168.31.111';
+const port = 2337;
 const scheme = 'socks5'; // 'http', 'https', 'socks4', 'socks5'
 
 // bypass and block list
@@ -107,7 +107,7 @@ function clearProxy() {
 }
 
 chrome.contextMenus.removeAll(() => {
-    ['open', 'close','clearHistory'].forEach(id => {
+    ['open(Ctrl+Shift+Space)', 'close(Ctrl+Space)','clearHistory'].forEach(id => {
         chrome.contextMenus.create({ id, title: id, contexts: ['all'] });
     });
 });
@@ -115,8 +115,8 @@ chrome.contextMenus.removeAll(() => {
 // listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(info => {
     switch (info.menuItemId) {
-        case 'open': applyProxy(); break;
-        case 'close': clearProxy(); break;
+        case 'open(Ctrl+Shift+Space)': applyProxy(); break;
+        case 'close(Ctrl+Space)': clearProxy(); break;
         case 'clearHistory': clearHistory(); break;
     }
 });
@@ -168,3 +168,14 @@ async function clearHistory() {
         }
     }
 }
+// command
+chrome.commands.onCommand.addListener((command) => {
+    if (command === "open-proxy") {
+        applyProxy();
+    } else if (command === "close-proxy") {
+        clearProxy();
+    } else {
+        clearHistory();
+    }
+});
+
