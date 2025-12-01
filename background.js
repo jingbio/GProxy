@@ -1,7 +1,7 @@
 // set the proxy settings for Chrome extension
 const host = '192.168.31.111';
-const port = 2337;
-const scheme = 'socks5'; // 'http', 'https', 'socks4', 'socks5'
+const port = 2334;
+const scheme = 'http'; // 'http', 'https', 'socks4', 'socks5'
 
 // bypass and block list
 let cachedBypassList = [
