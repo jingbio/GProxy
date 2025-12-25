@@ -58,7 +58,9 @@ let cachedBypassList = [
     ,"*xunlei.com"
     ,"*youku.com"
     ,"*zhihu.com"
-    ,"*alal.site"
+    ,"alal.site"
+    ,"tool.alal.site"
+    ,"v.alal.site"
 ];
 let cachedBlockList = [
     "*pornhub.com"
