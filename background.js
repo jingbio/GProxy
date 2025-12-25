@@ -1,5 +1,5 @@
 // set the proxy settings for Chrome extension
-const host = '192.168.31.111';
+const host = '127.0.0.1';
 const port = 2334;
 const scheme = 'http'; // 'http', 'https', 'socks4', 'socks5'
 
@@ -58,7 +58,7 @@ let cachedBypassList = [
     ,"*xunlei.com"
     ,"*youku.com"
     ,"*zhihu.com"
-    ,"gtool.alal.site"
+    ,"*alal.site"
 ];
 let cachedBlockList = [
     "*pornhub.com"
